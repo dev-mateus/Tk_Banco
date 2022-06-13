@@ -1,6 +1,6 @@
 from classe_cliente import *
 from classe_conta import *
-
+'''
 p1 = Cliente(nome='Mateus', cpf='12345678', dataNasc='06/05/1988')
 c1 = Conta(p1, num='123-4')
 
@@ -11,4 +11,4 @@ c1.deposito(500)
 c1.transfere_para(50,c2)
 
 c1.extrato()
-c2.extrato()
+c2.extrato()'''
