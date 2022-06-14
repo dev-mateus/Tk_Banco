@@ -33,10 +33,11 @@ def entrar():
 
             tela_cliente.pack_forget()
             tela_cliente_dados.pack()
-            cliente_nome['text'] += clientes[i].nome
-            cliente_cpf['text'] += clientes[i].cpf
-            cliente_dataNasc['text'] += clientes[i].dataNasc
-            cliente_num['text'] += contas[i].num
+            tela_cliente_menu.pack()
+            cliente_nome['text'] = 'Nome: ' + clientes[i].nome
+            cliente_cpf['text'] = 'CPF: ' + clientes[i].cpf
+            cliente_dataNasc['text'] = 'Data Nasc.: ' + clientes[i].dataNasc
+            cliente_num['text'] = 'N° da conta: ' + contas[i].num
 
 
 root = Tk()
@@ -45,9 +46,10 @@ tela_login = LabelFrame(root, text='Login')
 cadastro_cliente = LabelFrame(root, text='Cadastro')
 tela_cliente = LabelFrame(root, text='login')
 tela_cliente_dados = LabelFrame(root, text='dados')
+tela_cliente_menu = LabelFrame(root, text='transações')
 
 cliente = Button(tela_login, text='Cliente',  command=lambda: [tela_cliente.pack(), tela_login.pack_forget()])
-funcionario = Button(tela_login, text='Funcionario', command=lambda: [cadastro_cliente.pack(), tela_login.pack_forget()])
+funcionario = Button(tela_login, text='Funcionario', command=lambda: [cadastro_cliente.pack(), tela_login.pack_forget(), tela_cliente_dados.pack_forget()])
 
 nome = Label(cadastro_cliente, text='Nome: ')
 cpf = Label(cadastro_cliente, text='CPF: ')
@@ -70,6 +72,8 @@ cliente_nome = Label(tela_cliente_dados, text='Nome:')
 cliente_cpf = Label(tela_cliente_dados, text='CPF:')
 cliente_dataNasc = Label(tela_cliente_dados, text='Data Nasc.:')
 cliente_num = Label(tela_cliente_dados, text='N° da conta:')
+
+cliente_votar = Button(tela_cliente_menu, text='Sair', command=lambda: [tela_cliente_menu.pack_forget(), tela_cliente.pack()])
 
 tela_login.pack()
 
@@ -97,5 +101,7 @@ cliente_nome.grid(row=0, column=0)
 cliente_cpf.grid(row=1, column=0)
 cliente_dataNasc.grid(row=2, column=0)
 cliente_num.grid(row=3, column=0)
+
+cliente_votar.grid(row=0, column=0)
 
 root.mainloop()
