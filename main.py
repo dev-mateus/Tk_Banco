@@ -14,6 +14,7 @@ c1.transfere_para(50,c2)
 c1.extrato()
 c2.extrato()'''
 
+
 clientes = []
 contas = []
 def cadastrar_cliente():
@@ -29,27 +30,44 @@ def entrar():
     global contas, num_conta_ent
     for i in range(len(contas)):
         if contas[i].num == num_conta_ent.get():
-            print(clientes[i].nome, clientes[i].cpf, contas[i].num, contas[i].saldo)
-
             tela_cliente.pack_forget()
-            tela_cliente_dados.pack()
-            tela_cliente_menu.pack()
+            tela_cliente_dados.grid(row=0, column=0, sticky=NS)
+            tela_cliente_menu.grid(row=0, column=1)
             cliente_nome['text'] = 'Nome: ' + clientes[i].nome
             cliente_cpf['text'] = 'CPF: ' + clientes[i].cpf
             cliente_dataNasc['text'] = 'Data Nasc.: ' + clientes[i].dataNasc
             cliente_num['text'] = 'N° da conta: ' + contas[i].num
+            cliente_saldo['text'] = 'Saldo: ' + str(contas[i].saldo)
+
+
+def cliente_depositar():
+    global contas, num_conta_ent
+    for i in range(len(contas)):
+        if contas[i].num == num_conta_ent.get():
+            contas[i].deposito(float(valor_ent.get()))
+            cliente_saldo['text'] = 'Saldo: ' + str(contas[i].saldo)
+            tela_cliente_deposito.grid_forget()
+
+
+def cliente_sacar():
+    global contas, num_conta_ent
+    for i in range(len(contas)):
+        if contas[i].num == num_conta_ent.get():
+            contas[i].saque(float(saque_ent.get()))
+            cliente_saldo['text'] = 'Saldo: ' + str(contas[i].saldo)
+            tela_cliente_saque.grid_forget()
 
 
 root = Tk()
-
+root.minsize(width=500, height=500)
 tela_login = LabelFrame(root, text='Login')
 cadastro_cliente = LabelFrame(root, text='Cadastro')
 tela_cliente = LabelFrame(root, text='login')
 tela_cliente_dados = LabelFrame(root, text='dados')
-tela_cliente_menu = LabelFrame(root, text='transações')
+tela_cliente_menu = LabelFrame(root, text='menu')
 
-cliente = Button(tela_login, text='Cliente',  command=lambda: [tela_cliente.pack(), tela_login.pack_forget()])
-funcionario = Button(tela_login, text='Funcionario', command=lambda: [cadastro_cliente.pack(), tela_login.pack_forget(), tela_cliente_dados.pack_forget()])
+cliente = Button(tela_login, text='Cliente', width=10, command=lambda: [tela_cliente.pack(), tela_login.pack_forget()])
+funcionario = Button(tela_login, text='Funcionário', width=10, command=lambda: [cadastro_cliente.pack(), tela_login.pack_forget(), tela_cliente_dados.pack_forget()])
 
 nome = Label(cadastro_cliente, text='Nome: ')
 cpf = Label(cadastro_cliente, text='CPF: ')
@@ -62,7 +80,7 @@ dataNasc_ent = Entry(cadastro_cliente)
 num_ent = Entry(cadastro_cliente)
 
 gravar = Button(cadastro_cliente, text='Cadastrar', command=lambda: cadastrar_cliente())
-voltar = Button(cadastro_cliente, text='Voltar', command=lambda: [cadastro_cliente.pack_forget(), tela_login.pack()])
+voltar = Button(cadastro_cliente, text='Voltar', command=lambda: [cadastro_cliente.pack_forget(), tela_login.pack(anchor='center', expand=1)])
 
 num_conta = Label(tela_cliente, text='N° da Conta:')
 num_conta_ent = Entry(tela_cliente)
@@ -72,13 +90,18 @@ cliente_nome = Label(tela_cliente_dados, text='Nome:')
 cliente_cpf = Label(tela_cliente_dados, text='CPF:')
 cliente_dataNasc = Label(tela_cliente_dados, text='Data Nasc.:')
 cliente_num = Label(tela_cliente_dados, text='N° da conta:')
+cliente_saldo = Label(tela_cliente_dados, text='Saldo:')
 
-cliente_votar = Button(tela_cliente_menu, text='Sair', command=lambda: [tela_cliente_menu.pack_forget(), tela_cliente.pack()])
+cliente_votar = Button(tela_cliente_menu, text='Sair', width=10, command=lambda: [tela_cliente_menu.grid_forget(), tela_cliente_dados.grid_forget(), tela_cliente.pack()])
+cliente_saque = Button(tela_cliente_menu, text='Saque', width=10, command=lambda: tela_cliente_saque.grid(row=1, column=0, columnspan=2))
+cliente_deposito = Button(tela_cliente_menu, text='Deposito', width=10, command=lambda: tela_cliente_deposito.grid(row=1, column=0, columnspan=2))
+cliente_transferencia = Button(tela_cliente_menu, text='Transferencia', width=10)
+cliente_extrato = Button(tela_cliente_menu, text='Extrato', width=10)
 
-tela_login.pack()
+tela_login.pack(anchor='center', expand=1)
 
-cliente.pack(fill=X)
-funcionario.pack(fill=X)
+cliente.pack(anchor='center', padx=10)
+funcionario.pack(anchor='center', pady=10)
 
 nome.grid(row=0, column=0)
 cpf.grid(row=1, column=0)
@@ -101,7 +124,24 @@ cliente_nome.grid(row=0, column=0)
 cliente_cpf.grid(row=1, column=0)
 cliente_dataNasc.grid(row=2, column=0)
 cliente_num.grid(row=3, column=0)
+cliente_saldo.grid(row=4, column=0)
 
-cliente_votar.grid(row=0, column=0)
+cliente_votar.pack()
+cliente_saque.pack()
+cliente_deposito.pack()
+cliente_transferencia.pack()
+cliente_extrato.pack()
+
+tela_cliente_deposito = LabelFrame(root, text='deposito')
+valor_ent = Entry(tela_cliente_deposito)
+confirmar_deposito = Button(tela_cliente_deposito, text='Confirmar', command=cliente_depositar)
+valor_ent.grid(row=0, column=0)
+confirmar_deposito.grid(row=0, column=1)
+
+tela_cliente_saque = LabelFrame(root, text='saque')
+saque_ent = Entry(tela_cliente_saque)
+confirmar_saque = Button(tela_cliente_saque, text='Confirmar', command=cliente_sacar)
+saque_ent.grid(row=0, column=0)
+confirmar_saque.grid(row=0, column=1)
 
 root.mainloop()
