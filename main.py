@@ -49,6 +49,15 @@ def cliente_depositar():
             tela_cliente_deposito.grid_forget()
 
 
+def cliente_sacar():
+    global contas, num_conta_ent
+    for i in range(len(contas)):
+        if contas[i].num == num_conta_ent.get():
+            contas[i].saque(float(saque_ent.get()))
+            cliente_saldo['text'] = 'Saldo: ' + str(contas[i].saldo)
+            tela_cliente_saque.grid_forget()
+
+
 root = Tk()
 root.minsize(width=500, height=500)
 tela_login = LabelFrame(root, text='Login')
@@ -84,7 +93,7 @@ cliente_num = Label(tela_cliente_dados, text='N° da conta:')
 cliente_saldo = Label(tela_cliente_dados, text='Saldo:')
 
 cliente_votar = Button(tela_cliente_menu, text='Sair', width=10, command=lambda: [tela_cliente_menu.grid_forget(), tela_cliente_dados.grid_forget(), tela_cliente.pack()])
-cliente_saque = Button(tela_cliente_menu, text='Saque', width=10)
+cliente_saque = Button(tela_cliente_menu, text='Saque', width=10, command=lambda: tela_cliente_saque.grid(row=1, column=0, columnspan=2))
 cliente_deposito = Button(tela_cliente_menu, text='Deposito', width=10, command=lambda: tela_cliente_deposito.grid(row=1, column=0, columnspan=2))
 cliente_transferencia = Button(tela_cliente_menu, text='Transferencia', width=10)
 cliente_extrato = Button(tela_cliente_menu, text='Extrato', width=10)
@@ -128,5 +137,11 @@ valor_ent = Entry(tela_cliente_deposito)
 confirmar_deposito = Button(tela_cliente_deposito, text='Confirmar', command=cliente_depositar)
 valor_ent.grid(row=0, column=0)
 confirmar_deposito.grid(row=0, column=1)
+
+tela_cliente_saque = LabelFrame(root, text='saque')
+saque_ent = Entry(tela_cliente_saque)
+confirmar_saque = Button(tela_cliente_saque, text='Confirmar', command=cliente_sacar)
+saque_ent.grid(row=0, column=0)
+confirmar_saque.grid(row=0, column=1)
 
 root.mainloop()
