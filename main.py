@@ -13,10 +13,10 @@ c1.transfere_para(50,c2)
 
 c1.extrato()
 c2.extrato()'''
-
-
 clientes = []
 contas = []
+
+
 def cadastrar_cliente():
     global clientes, contas, nome_ent, cpf_ent, dataNasc_ent, num_ent
     clientes.append(Cliente(nome=nome_ent.get(), cpf=cpf_ent.get(), dataNasc=dataNasc_ent.get()))
@@ -57,6 +57,18 @@ def cliente_sacar():
             cliente_saldo['text'] = 'Saldo: ' + str(contas[i].saldo)
             tela_cliente_saque.grid_forget()
 
+def cliente_transferir():
+    global contas, num_conta_ent, transferencia_conta_ent
+    for j in range(len(contas)):
+        if contas[j].num == transferencia_conta_ent.get():
+            conta_destino = contas[j]
+
+    for i in range(len(contas)):
+        if contas[i].num == num_conta_ent.get():
+            contas[i].transfere_para(float(transferencia_ent.get()), conta_destino)
+            cliente_saldo['text'] = 'Saldo: ' + str(contas[i].saldo)
+            tela_cliente_transferencia.grid_forget()
+
 
 root = Tk()
 root.minsize(width=500, height=500)
@@ -95,7 +107,7 @@ cliente_saldo = Label(tela_cliente_dados, text='Saldo:', font='Verdana 20')
 cliente_votar = Button(tela_cliente_menu, text='Sair', font='Verdana 20', width=10, command=lambda: [tela_cliente_menu.grid_forget(), tela_cliente_dados.grid_forget(), tela_cliente.pack()])
 cliente_saque = Button(tela_cliente_menu, text='Saque', font='Verdana 20', width=10, command=lambda: tela_cliente_saque.grid(row=1, column=0, columnspan=2))
 cliente_deposito = Button(tela_cliente_menu, text='Deposito', font='Verdana 20', width=10, command=lambda: tela_cliente_deposito.grid(row=1, column=0, columnspan=2))
-cliente_transferencia = Button(tela_cliente_menu, text='Transferencia', font='Verdana 20', width=10)
+cliente_transferencia = Button(tela_cliente_menu, text='Transferencia', font='Verdana 20', width=10, command=lambda: tela_cliente_transferencia.grid(row=1, column=0, columnspan=2))
 cliente_extrato = Button(tela_cliente_menu, text='Extrato', font='Verdana 20', width=10)
 
 tela_login.pack(anchor='center', expand=1)
@@ -143,5 +155,13 @@ saque_ent = Entry(tela_cliente_saque, font='Verdana 20')
 confirmar_saque = Button(tela_cliente_saque, text='Confirmar', font='Verdana 20', command=cliente_sacar)
 saque_ent.grid(row=0, column=0)
 confirmar_saque.grid(row=0, column=1)
+
+tela_cliente_transferencia = LabelFrame(root, text='transferencia', font='Verdana 20')
+transferencia_ent = Entry(tela_cliente_transferencia, font='Verdana 20')
+transferencia_conta_ent = Entry(tela_cliente_transferencia, font='Verdana 20')
+confirmar_transferencia = Button(tela_cliente_transferencia, text='Confirmar', font='Verdana 20', command=cliente_transferir)
+transferencia_ent.grid(row=0, column=0)
+transferencia_conta_ent.grid(row=1, column=0)
+confirmar_transferencia.grid(row=0, column=1)
 
 root.mainloop()
