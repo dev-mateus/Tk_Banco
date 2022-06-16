@@ -70,6 +70,13 @@ def cliente_transferir():
             tela_cliente_transferencia.grid_forget()
 
 
+def cliente_imprimir_extrato():
+    global contas, num_conta_ent
+    for i in range(len(contas)):
+        if contas[i].num == num_conta_ent.get():
+            contas[i].extrato()
+
+
 root = Tk()
 root.minsize(width=500, height=500)
 tela_login = LabelFrame(root, text='Login', font='Verdana 16')
@@ -108,7 +115,7 @@ cliente_votar = Button(tela_cliente_menu, text='Sair', font='Verdana 20', width=
 cliente_saque = Button(tela_cliente_menu, text='Saque', font='Verdana 20', width=10, command=lambda: tela_cliente_saque.grid(row=1, column=0, columnspan=2))
 cliente_deposito = Button(tela_cliente_menu, text='Deposito', font='Verdana 20', width=10, command=lambda: tela_cliente_deposito.grid(row=1, column=0, columnspan=2))
 cliente_transferencia = Button(tela_cliente_menu, text='Transferencia', font='Verdana 20', width=10, command=lambda: tela_cliente_transferencia.grid(row=1, column=0, columnspan=2))
-cliente_extrato = Button(tela_cliente_menu, text='Extrato', font='Verdana 20', width=10)
+cliente_extrato = Button(tela_cliente_menu, text='Extrato', font='Verdana 20', width=10, command=cliente_imprimir_extrato)
 
 tela_login.pack(anchor='center', expand=1)
 
