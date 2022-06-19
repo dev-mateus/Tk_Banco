@@ -1,16 +1,20 @@
 from classe_historico import Historico
 
+
 class Conta:
 
-    def __init__(self, objeto, num: str, saldo=0.0):
+    def __init__(self, objeto, num: str, saldo=0.0, msg=''):
         self.titular = objeto.nome
         self.num = num
         self.saldo = saldo
         self.historico = Historico()
 
     def extrato(self):
-        print(f'='*30,f'\nTitular: {self.titular}\nSaldo: {self.saldo}')
-        self.historico.transacoes_bancarias()
+        pass
+        #print(f'='*30,f'\nTitular: {self.titular}\nSaldo: {self.saldo}')
+        #self.historico.transacoes_bancarias()
+        #self.msg = self.transacoes
+        #print(self.msg)
 
     def deposito(self, valor):
         self.saldo += valor
@@ -24,6 +28,7 @@ class Conta:
             return self.saldo
         else:
             print('Saldo insuficiente para o saque!')
+            self.msg = 'Saldo insuficiente para o saque!'
 
     def transfere(self, valor, destino):
         if valor <= self.saldo:
